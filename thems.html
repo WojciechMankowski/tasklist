@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <header>
+        <h1> Lista zadań</h1>
+    </header>
+    <main>
+        <article>
+            <h2>Twoja lista zadań na dzisiaj</h2>
+            <ul>
+                <li>Kupić chleb</li>
+            </ul>
+        </article>
+        <article>
+            <h2>Dodaj nowe zadanie</h2>
+            <form action="">
+                <label for="nameTask">Tytuł zadania</label>
+                <input type="text" id="nameTask" required>
+                <label for="deadline">Data przypomnienia</label>
+                <input type="datetime-local" name="deadline" id="deadline" required>
+                <label for="description">Opis zadania</label>
+                <input type="text" id="description">
+                <label for="category">Kategoria</label>
+                <input type="text" id="category">
+
+                <label for="isRepeatTask ">Czy zadanie ma się powtarzać?</label>
+                <label for="">Kiedy ma się powtórzyć</label>
+                <input type="number" name="" id="">
+                <input type="checkbox" name="isRepeatTask " id="isRepeatTask">
+                <input type="submit" value="Dodaj nowe zadanie">
+            </form>
+        </article>
+    </main>
+    <script src="scripts.js"></script>
+</body>
+
+</html>
