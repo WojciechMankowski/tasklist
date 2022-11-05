@@ -50,7 +50,7 @@ class Reminders {
 			const nowDate = new Date().toDateString()
 			return task.isRepeatTask && nowDate === date
 		})
-		
+
 		repeatTasks.forEach(task => {
 			const taskIndex = this.tasks.indexOf(task)
 			console.log(this.tasks[taskIndex].deadline)
@@ -102,10 +102,10 @@ class Reminders {
 	}
 }
 
-const task1 = new Reminde("name1", new Date(2022, 10, 05, 09, 28, 00), "abc", "12", true, 5)
-const task2 = new Reminde("name2", "2022-10-18", "abc", "12")
-const task3 = new Reminde("name3", "2022-10-20", "abc", "12")
-const task4 = new Reminde("name4", "2022-10-17", "abc", "12")
+const task1 = new Reminde("name1", new Date(2022, 05, 11, 09, 28, 00), "abc", "12", true, 5)
+const task2 = new Reminde("name2", new Date(2022, 06, 11, 13, 54), "abc", "12")
+const task3 = new Reminde("name3", new Date(2022, 08, 11, 12, 54), "abc", "12")
+const task4 = new Reminde("name4", new Date(2022, 06, 11, 13, 54), "abc", "12")
 const task5 = new Reminde("name5", "2022-10-25", "abc", "12")
 const task6 = new Reminde("name6", "2022-10-19", "abc", "12")
 const task7 = new Reminde("name7", "2022-10-17", "abc", "12")
@@ -127,10 +127,10 @@ const updated = new Reminde("updated", "2022-10-25", "abc", "12")
 
 const tasks = new Reminders()
 tasks.addTask(task1)
-// tasks.addTask(task2)
+tasks.addTask(task2)
 tasks.refresh()
-// tasks.addTask(task3)
-// tasks.addTask(task4)
+tasks.addTask(task3)
+tasks.addTask(task4)
 // tasks.addTask(task5)
 // tasks.addTask(task6)
 // tasks.addTask(task7)
@@ -160,3 +160,39 @@ tasks.refresh()
 // const date = new Date()
 // console.log(date.getFullYear())
 // const newDate = new Date(date.getFullYear(), date.getMonth(), date.getDate()+7)
+console.log(
+	tasks.getAll().filter(task => {
+		console.log(task.deadline.getDay())
+		return task.deadline.getDay() == 6
+	})
+)
+const dates = new Date()
+
+const getStartDateWeek = nowDate => {
+	const startDate = nowDate.getDate() - nowDate.getDay()
+
+	let date
+	if (startDate === -1) {
+		const month = nowDate.getMonth()
+		console.log(month)
+
+		switch (month) {
+			case 10:
+				date = new Date()
+				date.setMonth(9)
+				date.setDate(31)
+				break
+		}
+	} else date = new Date(2022, 10, startDate)
+	return date
+}
+
+console.log(getStartDateWeek(dates).toDateString())
+
+const Tasks = tasks.getAll()
+console.log(Tasks)
+const newT = Tasks.sort((a, b) => {
+	console.log(a.deadline < b.deadline)
+	return a.deadline < b.deadline
+})
+console.log(newT)

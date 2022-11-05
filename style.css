@@ -88,3 +88,7 @@ input {
 .day input{
     margin-left:  3px;
 }
+.day span{
+	display: block;
+	text-align: center;
+}
