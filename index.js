@@ -45,7 +45,7 @@ class Reminders {
 	// TODO odświeżenie i zammiana deadlinu i zamianna na licie z zadaniami
 	refresh() {
 		const repeatTasks = this.tasks.filter(task => {
-			console.log(task.deadline)
+			// console.log(task.deadline)
 			const date = new Date(`${task.deadline}`).toDateString()
 			const nowDate = new Date().toDateString()
 			return task.isRepeatTask && nowDate === date
@@ -53,8 +53,8 @@ class Reminders {
 
 		repeatTasks.forEach(task => {
 			const taskIndex = this.tasks.indexOf(task)
-			console.log(this.tasks[taskIndex].deadline)
-			console.log(typeof task.deadline)
+			// console.log(this.tasks[taskIndex].deadline)
+			// console.log(typeof task.deadline)
 			const deadline = task.deadline
 			const newDate = new Date(
 				deadline.getFullYear(),
@@ -64,7 +64,7 @@ class Reminders {
 				deadline.getMinutes()
 			)
 			this.tasks[taskIndex] = { ...task, deadline: newDate }
-			console.log(this.tasks[taskIndex].deadline)
+			// console.log(this.tasks[taskIndex].deadline)
 		})
 		// const tasksIndex = this.tasks.indexOf(task)
 		// this.tasks.pop(tasksIndex)
@@ -101,11 +101,12 @@ class Reminders {
 		this.tasks[index] = { ...this.tasks[index], ...updatedTask }
 	}
 }
-
-const task1 = new Reminde("name1", new Date(2022, 05, 11, 09, 28, 00), "abc", "12", true, 5)
-const task2 = new Reminde("name2", new Date(2022, 06, 11, 13, 54), "abc", "12")
-const task3 = new Reminde("name3", new Date(2022, 08, 11, 12, 54), "abc", "12")
-const task4 = new Reminde("name4", new Date(2022, 06, 11, 13, 54), "abc", "12")
+// name, deadline, description = "", category = "", isRepeatTask = false, howDay
+// 2022, 15, 11, 09, 28, 00
+const task1 = new Reminde("name1", new Date("2022-11-14 09:25"), "abc", "12", true, 5)
+const task2 = new Reminde("name2", new Date("2022-11-15 10:25"), "abc", "12")
+const task3 = new Reminde("name3", new Date("2022-10-17 09:25"), "abc", "12")
+const task4 = new Reminde("name4", "2022-10-17", "abc", "12")
 const task5 = new Reminde("name5", "2022-10-25", "abc", "12")
 const task6 = new Reminde("name6", "2022-10-19", "abc", "12")
 const task7 = new Reminde("name7", "2022-10-17", "abc", "12")
@@ -130,7 +131,7 @@ tasks.addTask(task1)
 tasks.addTask(task2)
 tasks.refresh()
 tasks.addTask(task3)
-tasks.addTask(task4)
+// tasks.addTask(task4)
 // tasks.addTask(task5)
 // tasks.addTask(task6)
 // tasks.addTask(task7)
@@ -160,14 +161,9 @@ tasks.addTask(task4)
 // const date = new Date()
 // console.log(date.getFullYear())
 // const newDate = new Date(date.getFullYear(), date.getMonth(), date.getDate()+7)
-console.log(
-	tasks.getAll().filter(task => {
-		console.log(task.deadline.getDay())
-		return task.deadline.getDay() == 6
-	})
-)
-const dates = new Date()
 
+const week = document.querySelector(".week")
+const days = document.querySelectorAll(".day")
 const getStartDateWeek = nowDate => {
 	const startDate = nowDate.getDate() - nowDate.getDay()
 
@@ -186,13 +182,62 @@ const getStartDateWeek = nowDate => {
 	} else date = new Date(2022, 10, startDate)
 	return date
 }
+///Szukamy poczatku tygodnia, szukamy taska pomiedzy poczatkiem a końcem tygodnia. Mając taką grupę tasków dzielimy je na dni tygodnia.
+//  rozwiązanie: task.deadline > startWeek && task.deadline < endWeek
 
-console.log(getStartDateWeek(dates).toDateString())
-
-const Tasks = tasks.getAll()
-console.log(Tasks)
-const newT = Tasks.sort((a, b) => {
-	console.log(a.deadline < b.deadline)
-	return a.deadline < b.deadline
+const assignTaskWeek = tasks => {
+	const startWeek = new Date()
+	const endWeek = new Date()
+	endWeek.setDate(startWeek.getDate() + 6)
+	const oneDay = tasks.filter(task => task.deadline > startWeek && task.deadline < endWeek)
+	return oneDay
+}
+const tasksAllWeek = assignTaskWeek(tasks.getAll())
+let weekObject = {
+	0: [],
+	1: [],
+	2: [],
+	3: [],
+	4: [],
+	5: [],
+	6: [],
+}
+tasksAllWeek.forEach(task => {
+	switch (task.deadline.getDay()) {
+		case 0:
+			weekObject[0] = [...weekObject[0], task]
+			break
+		case 1:
+			weekObject[1] = [...weekObject[1], task]
+			break
+		case 2:
+			weekObject[2] = [...weekObject[2], task]
+			break
+		case 3:
+			weekObject[3] = [...weekObject[3], task]
+			break
+		case 4:
+			weekObject[4] = [...weekObject[4], task]
+			break
+		case 5:
+			weekObject[5] = [...weekObject[5], task]
+			break
+		case 6:
+			weekObject[6] = [...weekObject[6], task]
+			break
+	}
 })
-console.log(newT)
+// for (let i = 0; i < 7; i++) {
+// 	console.log(assignTaskWeek(tasks.getAll(), i))
+// 	// weekObject[i] = assignTaskWeek(tasks.getAll(), i)
+// }
+
+console.log(weekObject[2])
+console.log(weekObject[6])
+// 0 n
+// 1 p
+//  2 w
+//  3 s
+//  4 czw
+//  5 p
+//  6 sob
