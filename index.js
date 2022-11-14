@@ -164,6 +164,7 @@ tasks.addTask(task3)
 
 const week = document.querySelector(".week")
 const days = document.querySelectorAll(".day")
+
 const getStartDateWeek = nowDate => {
 	const startDate = nowDate.getDate() - nowDate.getDay()
 
@@ -227,17 +228,33 @@ tasksAllWeek.forEach(task => {
 			break
 	}
 })
-// for (let i = 0; i < 7; i++) {
-// 	console.log(assignTaskWeek(tasks.getAll(), i))
-// 	// weekObject[i] = assignTaskWeek(tasks.getAll(), i)
-// }
 
-console.log(weekObject[2])
-console.log(weekObject[6])
-// 0 n
-// 1 p
-//  2 w
-//  3 s
-//  4 czw
-//  5 p
-//  6 sob
+// console.log(weekObject)
+// console.log(weekObject[6])
+const keys = Object.keys(weekObject)
+
+const createCheckbox = isDone => {
+	const checkbox = document.createElement("input")
+	checkbox.type = "checkbox"
+	return checkbox
+}
+const createParagraph = text => {
+	console.log("text", text)
+	const p = document.createElement("p")
+	p.innerHTML = text
+	return p
+}
+
+const renderTasks = weekTasks => {
+	for (let i = 0; i < 7; i++) {
+		const day = weekTasks[i]
+		day.forEach(task => {
+			console.log(task.name)
+			const checkbox = createCheckbox(task.isDone)
+			const patagrah = createParagraph(task.name)
+			days[i].append(checkbox, patagrah)
+		})
+	}
+}
+
+renderTasks(weekObject)
