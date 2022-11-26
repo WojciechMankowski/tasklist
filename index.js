@@ -103,8 +103,9 @@ class Reminders {
 }
 // name, deadline, description = "", category = "", isRepeatTask = false, howDay
 // 2022, 15, 11, 09, 28, 00
-const task1 = new Reminde("name1", new Date("2022-11-14 09:25"), "abc", "12", true, 5)
-const task2 = new Reminde("name2", new Date("2022-11-15 10:25"), "abc", "12")
+const task1 = new Reminde("name1", new Date("2022-11-16 09:25"), "abc", "12", true, 5)
+task1.setAsDone()
+const task2 = new Reminde("name2", new Date("2022-11-16 10:25"), "abc", "12")
 const task3 = new Reminde("name3", new Date("2022-10-17 09:25"), "abc", "12")
 const task4 = new Reminde("name4", "2022-10-17", "abc", "12")
 const task5 = new Reminde("name5", "2022-10-25", "abc", "12")
@@ -129,7 +130,7 @@ const updated = new Reminde("updated", "2022-10-25", "abc", "12")
 const tasks = new Reminders()
 tasks.addTask(task1)
 tasks.addTask(task2)
-tasks.refresh()
+// tasks.refresh()
 tasks.addTask(task3)
 // tasks.addTask(task4)
 // tasks.addTask(task5)
@@ -187,7 +188,7 @@ const getStartDateWeek = nowDate => {
 //  rozwiązanie: task.deadline > startWeek && task.deadline < endWeek
 
 const assignTaskWeek = tasks => {
-	const startWeek = new Date()
+	const startWeek = getStartDateWeek(new Date())
 	const endWeek = new Date()
 	endWeek.setDate(startWeek.getDate() + 6)
 	const oneDay = tasks.filter(task => task.deadline > startWeek && task.deadline < endWeek)
@@ -234,12 +235,14 @@ tasksAllWeek.forEach(task => {
 const keys = Object.keys(weekObject)
 
 const createCheckbox = isDone => {
+	console.log(isDone)
 	const checkbox = document.createElement("input")
 	checkbox.type = "checkbox"
+	checkbox.checked = isDone
+	console.log(checkbox.checked)
 	return checkbox
 }
 const createParagraph = text => {
-	console.log("text", text)
 	const p = document.createElement("p")
 	p.innerHTML = text
 	return p
@@ -249,10 +252,10 @@ const renderTasks = weekTasks => {
 	for (let i = 0; i < 7; i++) {
 		const day = weekTasks[i]
 		day.forEach(task => {
-			console.log(task.name)
-			const checkbox = createCheckbox(task.isDone)
+			const checkbox = createCheckbox(task.isCompleted)
 			const patagrah = createParagraph(task.name)
-			days[i].append(checkbox, patagrah)
+			patagrah.prepend(checkbox)
+			days[i].append(patagrah)
 		})
 	}
 }
